@@ -1,0 +1,159 @@
+﻿@using ShengTaOrderListing.Models
+@using MudBlazor
+@inject IDialogService DialogService 
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">编辑产品</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="_form" Model="_store">
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudAutocomplete Label="Company Name"
+                                      @bind-Value="_store.Company"
+                                      SearchFunc="@SearchCompany"
+                                      ToStringFunc="@(s => s ?? string.Empty)"
+                                      Clearable
+                                      Required="true"
+                                      RequiredError="Choose Company Name" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudIconButton Icon="@Icons.Material.Filled.Add"
+                                   Color="Color.Primary"
+                                   OnClick="OpenAddCompanyDialog" />
+                </MudItem>
+                
+                <MudItem xs="12" md="6">
+                    <MudTextField @bind-Value="_store.ProductName"
+                                   Label="Product Name"
+                                   Required="true"
+                                   RequiredError="Product Name is Required" />
+                </MudItem>
+                
+                <MudItem xs="12" md="6">
+                    <MudNumericField @bind-Value="_store.MaxOrder"
+                                     HideSpinButtons="true"
+                                     Label="Max Order"
+                                     Variant="Variant.Text" />
+                </MudItem>
+                
+                <MudItem xs="12" md="6">
+                    <MudSelect Label="Unit"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="_store.Unit"
+                               Clearable>
+                        <MudSelectItem Value="@OrderUnit.BLT">BLT (箱)</MudSelectItem>
+                        <MudSelectItem Value="@OrderUnit.BAG">BAG (袋)</MudSelectItem>
+                        <MudSelectItem Value="@OrderUnit.DRUM">DRUM (桶)</MudSelectItem>
+                        <MudSelectItem Value="@OrderUnit.SETS">SETS (套)</MudSelectItem>
+                        <MudSelectItem Value="@OrderUnit.PACKS">PACKS (包)</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                
+                <MudItem xs="12" md="6">
+                    <MudNumericField @bind-Value="_store.MarketPrice"
+                                     HideSpinButtons="true"
+                                     Label="Market Price (RM)"
+                                     Required="true"
+                                     Format="F2"
+                                     Variant="Variant.Text"
+                                     Clearable="true" />
+                </MudItem>
+                
+                <MudItem xs="12" md="6">
+                    <MudNumericField @bind-Value="_store.MemberPrice"
+                                     HideSpinButtons="true"
+                                     Label="Member Price (RM)"
+                                     Required="true"
+                                     Format="F2"
+                                     Variant="Variant.Text"
+                                     Clearable="true" />
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">取消</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Save">保存</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Store Store { get; set; }
+
+    [Parameter]
+    public List<string> Companies { get; set; }
+
+    private Store _store;
+    private MudForm _form;
+
+    protected override void OnParametersSet()
+    {
+        // 创建副本以避免直接修改原始对象
+        _store = new Store
+        {
+            Id = Store.Id,
+            Company = Store.Company,
+            ProductName = Store.ProductName,
+            MaxOrder = Store.MaxOrder,
+            Unit = Store.Unit,
+            MarketPrice = Store.MarketPrice,
+            MemberPrice = Store.MemberPrice,
+            Storeid = Store.Storeid
+        };
+    }
+
+    private async Task<IEnumerable<string>> SearchCompany(string value, CancellationToken token)
+    {
+        await Task.Delay(5);
+        return Companies.Where(x => x.Contains(value, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private async Task OpenAddCompanyDialog()
+    {
+        var options = new DialogOptions()
+        {
+            CloseOnEscapeKey = true,
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var dialog = DialogService.Show<AddCompanyDialog>("添加新公司", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            string newCompany = result.Data.ToString();
+
+            if (!Companies.Contains(newCompany))
+            {
+                Companies.Add(newCompany);
+                Companies = Companies.OrderBy(c => c).ToList();
+                _store.Company = newCompany;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private async Task Save()
+    {
+        await _form.Validate();
+        if (_form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(_store));
+            Console.WriteLine(_store.Unit);
+            Console.WriteLine(_store.MemberPrice);
+
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}

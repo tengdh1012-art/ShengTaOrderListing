@@ -1,0 +1,543 @@
+﻿@page "/store"
+@using ShengTaOrderListing.Components
+@using ShengTaOrderListing.Services
+@using ShengTaOrderListing.Models
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop;
+@inject StoreService StoreService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IJSRuntime JSRuntime
+@using MudBlazor
+
+<MudTabs Centered="_centered" Color="Color.Primary">
+    <MudTabPanel Text="产品信息">
+        <MudCard>
+            <MudCardContent>
+                <MudForm @ref="_form" Model="_newStore">
+
+                    <MudGrid>
+                        <!-- 公司名称放在首位 -->
+                        <MudItem xs="12" md="6">
+                            <MudAutocomplete @ref="_companyRef"
+                                             Label="Company Name"
+                                             @bind-Value="_newStore.Company"
+                                             SearchFunc="@SearchCompany"
+                                             ToStringFunc="@(s => s ?? string.Empty)"
+                                             Clearable
+                                             Required="true"
+                                             RequiredError="Choose Company Name"
+                                             OnKeyDown="@(e => HandleKeyDown(e, _productNameRef))"
+                                             CoerceValue="true" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudItem xs="2" Style="align-self: flex-end;">
+                                <MudIconButton Icon="@Icons.Material.Filled.Add"
+                                               Color="Color.Primary"
+                                               OnClick="OpenAddDialog" />
+                            </MudItem>
+                        </MudItem>
+
+                        <!-- 产品名称放在第二位 -->
+                        <MudItem xs="12" md="6">
+                            <MudTextField @ref="_productNameRef"
+                                          @bind-Value="_newStore.ProductName"
+                                          Label="Product Name"
+                                          Required="true"
+                                          RequiredError="Product Name is Required"
+                                          OnKeyDown="@(e => HandleKeyDown(e, _maxOrderRef))"
+                                          Disabled="@string.IsNullOrEmpty(_newStore.Company)" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newStore.Storeid"
+                                          Label="Store ID"
+                                          HelperText="Auto Generated"
+                                          ReadOnly="true"
+                                          Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudNumericField @ref="_maxOrderRef"
+                                             HideSpinButtons="true"
+                                             @bind-Value="_newStore.MaxOrder"
+                                             Label="Max Order"
+                                             Variant="Variant.Text"
+                                             OnKeyDown="@(e => HandleKeyDown(e, _unitRef))" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudSelect @ref="_unitRef"
+                                       Label="Unit"
+                                       Variant="Variant.Outlined"
+                                       AnchorOrigin="Origin.BottomCenter"
+                                       @bind-Value="_newStore.Unit"
+                                       Clearable
+                                       OnKeyDown="@(e => HandleKeyDown(e, _marketPriceRef))">
+                                <MudSelectItem Value="@OrderUnit.BLT">BLT (箱)</MudSelectItem>
+                                <MudSelectItem Value="@OrderUnit.BAG">BAG (袋)</MudSelectItem>
+                                <MudSelectItem Value="@OrderUnit.DRUM">DRUM (桶)</MudSelectItem>
+                                <MudSelectItem Value="@OrderUnit.SETS">SETS (套)</MudSelectItem>
+                                <MudSelectItem Value="@OrderUnit.PACKS">PACKS (包)</MudSelectItem>
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudNumericField @ref="_marketPriceRef"
+                                             HideSpinButtons="true"
+                                             @bind-Value="_newStore.MarketPrice"
+                                             Label="Market Price (RM)"
+                                             Required="true"
+                                             Variant="Variant.Text"
+                                             Placeholder="Keyin Price"
+                                             Clearable="true"
+                                             Format="F2"
+                                             InputType="number"
+                                             OnKeyDown="@(e => HandleKeyDown(e, _memberPriceRef))" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudNumericField @ref="_memberPriceRef"
+                                             HideSpinButtons="true"
+                                             @bind-Value="_newStore.MemberPrice"
+                                             Label="Member Price (RM)"
+                                             Required="true"
+                                             Format="F2"
+                                             Variant="Variant.Text"
+                                             Placeholder="Keyin Price"
+                                             Clearable="true"
+                                             InputType="number"
+                                             OnKeyDown="@(e => HandleKeyDown(e, _submitButtonRef))" />
+                        </MudItem>
+                        
+                    </MudGrid>
+                </MudForm>
+            </MudCardContent>
+
+            <MudCardActions>
+                <MudButton @ref="_submitButtonRef"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick="SubmitForm"
+                           Disabled="@string.IsNullOrEmpty(_newStore.Company)">
+                    <MudIcon Icon="@Icons.Material.Filled.Save" /> Submit
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudTabPanel>
+    <MudTabPanel Text="All Product">
+        <MudCard>
+            <MudCardContent>
+                <MudTable Items="@GroupedStore" Loading="@_isLoading" Elevation="5">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Product List</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="搜索..."
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+
+                    <HeaderContent>
+                        <MudTh></MudTh> <!-- 空列用于公司分组名 -->
+                        <MudTh>Product Name</MudTh>
+                        <MudTh>Max Order</MudTh>
+                        <MudTh>Market Price</MudTh>
+                        <MudTh>Member Price</MudTh>
+                        <MudTh>Setting</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        @if (context.IsGroupHeader)
+                        {
+                            var rotationStyle = $"transform: {GetGroupIconRotation(context.Company)};";
+                            <MudTd ColSpan="6">
+                                <div style="display:flex; align-items:center;">
+                                    <MudIconButton Icon="@Icons.Material.Filled.ExpandMore"
+                                                   OnClick="@(() => ToggleGroup(context.Company))"
+                                                   Class="mr-2"
+                                                   IconClass="@(GetGroupIconClass(context.Company))"
+                                                   Style="@rotationStyle"
+                                                   Color="Color.Primary" />
+                                    <MudText Typo="Typo.h6" Color="Color.Primary">Company：@context.Company</MudText>
+                                </div>
+                            </MudTd>
+                        }
+                        else
+                        {
+                            <MudTd></MudTd>
+                            <MudTd DataLabel="Product Name">@context.ProductName</MudTd>
+                            <MudTd DataLabel="Max Order">@context.MaxOrder@context.Unit</MudTd>
+                            <MudTd DataLabel="Market Price">RM @context.MarketPrice?.ToString("F2")</MudTd>
+                            <MudTd DataLabel="Member Price">RM @context.MemberPrice?.ToString("F2")</MudTd>
+                            <MudTd DataLabel="Setting">
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                               Color="Color.Primary"
+                                               OnClick="() => OpenEditDialog(context)" />
+                                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                               Color="Color.Error"
+                                               OnClick="() => DeleteStore(context.Id, context)" />
+                            </MudTd>
+                        }
+                    </RowTemplate>
+
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="@(new int[] { 10, 25, 50 })" />
+                    </PagerContent>
+                    <NoRecordsContent>
+                        <MudText>没有找到产品记录</MudText>
+                    </NoRecordsContent>
+                </MudTable>
+            </MudCardContent>
+        </MudCard>
+    </MudTabPanel>
+</MudTabs>
+
+@code {
+    // 字段引用
+    private MudAutocomplete<string> _companyRef;
+    private MudTextField<string> _productNameRef;
+    private MudNumericField<int?> _maxOrderRef;
+    private MudSelect<OrderUnit> _unitRef;
+    private MudNumericField<float?> _marketPriceRef;
+    private MudNumericField<float?> _memberPriceRef;
+    private MudButton _submitButtonRef;
+    private Dictionary<string, bool> _groupExpandedState = new Dictionary<string, bool>();
+
+    bool _centered = true;
+    private MudForm _form;
+    private Store _newStore = new();
+    private List<Store> _store = new();
+
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private List<string> _companies = new();
+
+    private void ToggleGroup(string company)
+    {
+        if (_groupExpandedState.ContainsKey(company))
+        {
+            _groupExpandedState[company] = !_groupExpandedState[company];
+        }
+        else
+        {
+            _groupExpandedState[company] = true;
+        }
+        StateHasChanged();
+    }
+
+    private string GetGroupIconClass(string company)
+    {
+        return _groupExpandedState.TryGetValue(company, out var expanded) && expanded
+            ? "mud-transform-180"
+            : "";
+    }
+
+    private string GetGroupIconRotation(string company)
+    {
+        return _groupExpandedState.TryGetValue(company, out var expanded) && expanded
+            ? "rotate(180deg)"
+            : "rotate(0deg)";
+    }
+
+
+    // 保存当前选择的公司，用于连续添加
+    private string _currentCompany = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _companies = await StoreService.GetAllCompaniesAsync();
+            int maxId = await StoreService.GetMaxStoreID();
+            _newStore.Storeid = maxId + 1;
+            _store = await StoreService.GetAllStoreAsync();
+
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"获取产品ID失败: {ex.Message}", Severity.Error);
+            Snackbar.Add($"Failed to get Product ID: {ex.Message}", Severity.Error);
+            _newStore.Storeid = 1;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    // 键盘导航方法
+    private async Task HandleKeyDown(KeyboardEventArgs e, dynamic nextFieldRef)
+    {
+        if (e.Key == "Enter")
+        {
+            await Task.Delay(50); // 小延迟确保UI更新
+            if (nextFieldRef != null)
+            {
+                await nextFieldRef.FocusAsync();
+            }
+        }
+    }
+
+
+
+    // 公司搜索方法 - 修复新公司添加问题
+    private async Task<IEnumerable<string>> SearchCompany(string value, CancellationToken token)
+    {
+        await Task.Delay(5);
+
+        // 如果值不为空，返回包含该值的所有公司
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            return _companies.Where(x => x.Contains(value, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // 返回完整列表
+        return _companies;
+    }
+
+    // 提交表单方法 - 修复公司名称问题
+    private async Task SubmitForm()
+    {
+        await _form.Validate();
+        if (_form.IsValid)
+        {
+            try
+            {
+                // 确保公司名称被正确保存
+                string newCompany = _newStore.Company?.Trim();
+
+                await StoreService.AddStore(_newStore);
+                Snackbar.Add($"产品添加成功", Severity.Success);
+                Snackbar.Add($"Product Added Sucessful", Severity.Success);
+
+
+                // 添加新公司到自动补全列表
+                if (!string.IsNullOrEmpty(newCompany) && !_companies.Contains(newCompany))
+                {
+                    _companies.Add(newCompany);
+                    _companies = _companies.OrderBy(c => c).ToList();
+                }
+
+                // 保存当前选择的公司
+                _currentCompany = newCompany;
+
+                // 刷新产品列表
+                _store = await StoreService.GetAllStoreAsync();
+
+                // 重置表单，但保留公司名称
+                _newStore = new Store
+                {
+                    Company = _currentCompany // 保留当前公司
+                };
+
+                // 更新产品ID
+                int maxId = await StoreService.GetMaxStoreID();
+                _newStore.Storeid = maxId + 1;
+
+                // 重置焦点到产品名称字段
+                if (_productNameRef != null)
+                {
+                    await _productNameRef.FocusAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"添加产品时出错: {ex.Message}", Severity.Error);
+            }
+        }
+        else
+        {
+            Snackbar.Add("请修正验证错误", Severity.Warning);
+        }
+    }
+
+    // 删除产品方法
+    private async Task DeleteStore(int id,Store store)
+    {
+
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            CloseButton = true, // 确保关闭按钮启用
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var parameters = new DialogParameters<DeleteConfirmationDialog>
+        {
+            {x => x.ContentText, $"确定要删除此产品 {store.ProductName} (ID: {store.Storeid}) 吗?"},
+            {x => x.ContentText, $"Delete {store.ProductName} (ID: {store.Storeid}) ?"},
+            { x => x.ButtonText, "Delete" },
+            { x => x.Color, Color.Error }
+        };
+
+        var dialog = DialogService.Show<DeleteConfirmationDialog>("警告", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            try
+            {
+                await StoreService.DeleteStoreAsync(id);
+                Snackbar.Add("产品删除成功", Severity.Success);
+                Snackbar.Add("Delete Sucessful", Severity.Success);
+
+
+                // 刷新产品列表
+                _store = await StoreService.GetAllStoreAsync();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"删除产品时出错: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    private async Task OpenEditDialog(Store store)
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+            FullWidth = true,
+            MaxWidth = MaxWidth.Medium
+        };
+
+        // 创建要编辑的副本
+        var storeToEdit = new Store
+        {
+            Id = store.Id,
+            Company = store.Company,
+            ProductName = store.ProductName,
+            MaxOrder = store.MaxOrder,
+            Unit = store.Unit,
+            MarketPrice = store.MarketPrice,
+            MemberPrice = store.MemberPrice,
+            Storeid = store.Storeid
+        };
+
+        var parameters = new DialogParameters<EditProductDialog>
+        {
+            {x => x.Store, storeToEdit},
+            {x => x.Companies, _companies}
+        };
+
+        var dialog = DialogService.Show<EditProductDialog>("编辑产品", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            try
+            {
+                var updatedStore = result.Data as Store;
+                await StoreService.UpdateStoreAsync(updatedStore);
+                Snackbar.Add("产品更新成功", Severity.Success);
+                Snackbar.Add("Product Updated Successfully", Severity.Success);
+
+                // 刷新产品列表
+                _store = await StoreService.GetAllStoreAsync();
+
+                // 更新公司列表（如果有新公司添加）
+                if (!string.IsNullOrEmpty(updatedStore.Company) &&
+                    !_companies.Contains(updatedStore.Company))
+                {
+                    _companies.Add(updatedStore.Company);
+                    _companies = _companies.OrderBy(c => c).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"更新产品时出错: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    
+    private async Task OpenAddDialog()
+    {
+        var options = new DialogOptions()
+        {
+            CloseOnEscapeKey = true,
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var dialog = DialogService.Show<AddCompanyDialog>("添加新公司", options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            string newCompany = result.Data.ToString();
+
+            // 检查公司是否已存在
+            if (_companies.Contains(newCompany))
+            {
+                Snackbar.Add($"公司 '{newCompany}' 已存在", Severity.Warning);
+
+                return;
+            }
+
+            // 添加到列表并刷新
+            _companies.Add(newCompany);
+            _companies = _companies.OrderBy(c => c).ToList();
+
+            // 自动选择新添加的公司
+            _newStore.Company = newCompany;
+
+            Snackbar.Add($"公司 '{newCompany}' 添加成功", Severity.Success);
+
+            // 延迟后聚焦到产品名称字段
+            await Task.Delay(100);
+            if (_productNameRef != null)
+            {
+                await _productNameRef.FocusAsync();
+            }
+        }
+    }
+
+
+    private List<Store> GroupedStore
+    {
+        get
+        {
+            return _store
+                .Where(c => string.IsNullOrWhiteSpace(_searchString) ||
+                            c.ProductName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                            (c.Company != null && c.Company.Contains(_searchString, StringComparison.OrdinalIgnoreCase)))
+                .GroupBy(x => x.Company)
+                .SelectMany(group =>
+                {
+                    var groupList = new List<Store>();
+
+                    // 添加分组头
+                    groupList.Add(new Store
+                    {
+                        IsGroupHeader = true,
+                        Company = group.Key
+                    });
+
+                    // 如果分组是展开状态，添加产品项
+                    if (_groupExpandedState.TryGetValue(group.Key, out var expanded) && expanded)
+                    {
+                        groupList.AddRange(group.Select(item => new Store
+                        {
+                            IsGroupHeader = false,
+                            Id = item.Id,
+                            ProductName = item.ProductName,
+                            MaxOrder = item.MaxOrder,
+                            Unit = item.Unit,
+                            MarketPrice = item.MarketPrice,
+                            MemberPrice = item.MemberPrice,
+                            Storeid = item.Storeid,
+                            Company = item.Company
+                        }));
+                    }
+
+                    return groupList;
+                })
+                .ToList();
+        }
+    }
+
+    // 筛选产品列表
+    private IEnumerable<Store> FilteredStore =>
+        _store.Where(c =>
+            string.IsNullOrWhiteSpace(_searchString) ||
+            c.ProductName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            (c.Company != null && c.Company.Contains(_searchString, StringComparison.OrdinalIgnoreCase)));
+}

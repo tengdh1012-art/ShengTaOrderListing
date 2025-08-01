@@ -1,0 +1,26 @@
+﻿@using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField @bind-Value="CompanyName"
+                      Label="新公司名称"
+                      Required="true"
+                      RequiredError="公司名称不能为空"
+                      Immediate="true"
+                      Variant="Variant.Outlined" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">取消</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Add" Disabled="@string.IsNullOrWhiteSpace(CompanyName)">添加</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; }
+
+    public string CompanyName { get; set; } = "";
+
+    void Cancel() => MudDialog.Cancel();
+
+    void Add() => MudDialog.Close(CompanyName);
+}

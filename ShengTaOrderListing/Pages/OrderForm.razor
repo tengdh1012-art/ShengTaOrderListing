@@ -1,0 +1,149 @@
+﻿@page "/order"
+@using ShengTaOrderListing.Models
+@using ShengTaOrderListing.Services
+@using ShengTaOrderListing.Components
+@inject CustomerService CustomerService
+@inject StoreService StoreService
+@inject OrderService OrderService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@using MudBlazor
+@inject NavigationManager NavigationManager
+@using System.Text.Json
+
+<MudTabs Centered="_centered" Color="Color.Primary">
+    <MudTabPanel Text="Customer Order Details">
+        <MudCard>
+            <MudCardContent>
+                <MudTable Items="@FilteredCustomers" Loading="@_isLoading" Elevation="5">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">客户列表</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="搜索..."
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>ID</MudTh>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Location</MudTh>
+                        <MudTh>操作</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        
+                        <MudTd>@context.CustomersID</MudTd>
+                        <MudTd>@context.CustomersName</MudTd>
+                        <MudTd>
+                            @context?.location <!-- 安全访问 -->
+                        </MudTd>
+                        <MudTd>
+                            @* <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart"
+                                           OnClick="@(() => NavigateToOrder(context.Id))"
+                                           Color="Color.Primary" /> *@
+                            <MudIconButton Icon="@Icons.Material.Filled.History"
+                                           OnClick="@(() => NavigateToOrder(context.CustomersID))"
+                                           Color="Color.Primary" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           OnClick="@(async () => await DeleteOrder(context.Id,context))"
+                                           Color="Color.Error" />
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="@(new int[] { 10, 25, 50 })" />
+                    </PagerContent>
+                    <NoRecordsContent>
+                        <MudText>没有找到客户记录</MudText>
+                    </NoRecordsContent>
+                </MudTable>
+            </MudCardContent>
+        </MudCard>
+    </MudTabPanel>
+</MudTabs>
+
+@code {
+    [Parameter]
+    public int CustomerId { get; set; }
+    bool _centered = true;
+
+    private List<Customer> _customers = new();
+    private List<Order> _order = new();
+    private List<Store> _store = new List<Store>();
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private Dictionary<int, int?> _quantities = new Dictionary<int, int?>();
+
+    private void NavigateToOrder(int customerId)
+    {
+        NavigationManager.NavigateTo($"/orderhistory/{customerId}");
+        Console.Write(customerId);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+
+            // 获取所有产品
+            _store = await StoreService.GetAllStoreAsync();
+            _order = await OrderService.GetAllOrdersAsync();
+            _customers = await CustomerService.GetAllCustomersAsync();
+            foreach (var order in _order)
+            {
+                var customer = _customers.FirstOrDefault(c => c.CustomersID == order.CustomersID);
+                if (customer != null)
+                {
+                    order.location = customer.Location; // 为Order模型添加Location属性
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"An error occurred: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task DeleteOrder(int id, Order order)
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            CloseButton = true, // 确保关闭按钮启用
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var parameters = new DialogParameters<DeleteConfirmationDialog>
+        {
+            {x => x.ContentText, $"确定要删除客户 {order.CustomersName} 的订单吗?"},
+            { x => x.ButtonText, "Delete" },
+            { x => x.Color, Color.Error }
+        };
+
+        var dialog = DialogService.Show<DeleteConfirmationDialog>("警告", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is bool confirmed && confirmed)
+        {
+            try
+            {
+                await OrderService.DeleteOrderAsync(id);
+                _order.Remove(order);
+                Snackbar.Add($"客户 {order.CustomersName} 已删除", Severity.Success);
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"删除失败: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+     private IEnumerable<Order> FilteredCustomers =>
+        _order.Where(c =>
+            string.IsNullOrWhiteSpace(_searchString) ||
+            c.CustomersName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            (c.location?.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false));
+}

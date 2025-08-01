@@ -1,0 +1,54 @@
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
+using MudBlazor;
+using MudBlazor.Services;
+using MySqlConnector;
+using OfficeOpenXml;
+using ShengTaOrderListing.Components;
+using ShengTaOrderListing.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+// blazor
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(8, 0, 21))
+    ),
+    ServiceLifetime.Scoped);
+
+// Add services to the container.
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorComponents()
+.AddInteractiveServerComponents();
+
+// Add MudBlazor services
+builder.Services.AddMudServices();
+builder.Services.AddMudBlazorResizeListener();
+builder.Services.AddSingleton<CustomerService>();
+builder.Services.AddSingleton<StoreService>();
+builder.Services.AddSingleton<OrderService>();
+builder.Services.AddScoped<FileService>();
+
+builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting(); // 必须添加
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>()
+.AddInteractiveServerRenderMode();
+
+
+app.Run();

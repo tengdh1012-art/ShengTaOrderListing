@@ -1,0 +1,298 @@
+﻿@page "/"
+@using ShengTaOrderListing.Components
+@using ShengTaOrderListing.Services
+@using ShengTaOrderListing.Models
+@inject CustomerService CustomerService
+@inject OrderService OrderService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@using MudBlazor
+<script>
+    window.saveAsFile = function (filename, contentType, base64) {
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        try {
+            const binary = atob(base64);
+            const buffer = new ArrayBuffer(binary.length);
+            const view = new Uint8Array(buffer);
+            for (let i = 0; i < binary.length; i++) {
+                view[i] = binary.charCodeAt(i);
+            }
+            const blob = new Blob([view], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        } finally {
+            document.body.removeChild(link);
+        }
+    };
+</script>
+<MudTabs Centered="_centered" Color="Color.Primary">
+    <MudTabPanel Text="Register Customers">
+        <MudCard>
+            <MudCardContent>
+                <MudForm @ref="_form" Model="_newcustomer">
+
+                    <MudGrid>
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newcustomer.CustomersID"
+                                          Label="Customer ID"
+                                          HelperText="Auto Generated"
+                                          ReadOnly="true"
+                                          Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newcustomer.CustomersName"
+                                          Label="Full Name"
+                                          Required="true"
+                                          RequiredError="Name is Required" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newcustomer.IC"
+                                          Required="true"
+                                          RequiredError="IC is Required"
+                                          Mask="@(new PatternMask("000000-00-0000"))"
+                                          HelperText="格式: 123456-12-1234"
+                                          Label="IC" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newcustomer.PhoneNumber"
+                                          Required="true"
+                                          RequiredError="Phone Number is Required"
+                                          Mask="@(new PatternMask("000-0000000"))"
+                                          HelperText="格式: 012-3456789 或 012-34567890"
+                                          Label="Phone Number" />
+                        </MudItem>
+
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_newcustomer.Location"
+                                          Label="Location"
+                                          Required="true"
+                                          RequiredError="Location is Required"
+                                          Lines="2"
+                                          Multiline="true" />
+                        </MudItem>
+
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newcustomer.TypeCrops"
+                                          Label="Type of Crops"
+                                          Required="true"
+                                          RequiredError="Required"
+                                          Multiline="true" />
+                        </MudItem>
+                        <MudItem xs="12" md="6">
+                            <MudTextField @bind-Value="_newcustomer.PlatingArea"
+                                          Required="true"
+                                          RequiredError="Required"
+                                          Label="Plating Area"
+                                          Multiline="true" />
+                        </MudItem>
+                    </MudGrid>
+                </MudForm>
+            </MudCardContent>
+
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick="SubmitForm">
+                    <MudIcon Icon="@Icons.Material.Filled.Save" /> 提交
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudTabPanel>
+    <MudTabPanel Text="Customer Details">
+        <MudCard>
+            <MudCardContent>
+                <MudTable Items="@FilteredCustomers" Loading="@_isLoading" Elevation="5">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">客户列表</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="搜索..."
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh>ID</MudTh>
+                        <MudTh>姓名</MudTh>
+                        <MudTh>身份证号</MudTh>
+                        <MudTh>电话</MudTh>
+                        <MudTh>位置</MudTh>
+                        <MudTh>作物类型</MudTh>
+                        <MudTh>种植面积</MudTh>
+                        <MudTh>操作</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@context.CustomersID</MudTd>
+                        <MudTd>@context.CustomersName</MudTd>
+                        <MudTd>@context.IC</MudTd>
+                        <MudTd>@context.PhoneNumber</MudTd>
+                        <MudTd>@context.Location</MudTd>
+                        <MudTd>@context.TypeCrops</MudTd>
+                        <MudTd>@context.PlatingArea</MudTd>
+                        <MudTd>
+                            @if (HasOrder(context.CustomersID))
+                            {
+                                <!-- 已有订单，显示Done图标 -->
+                                <MudIconButton Icon="@Icons.Material.Filled.Done"
+                                               Title="该客户已有订单"
+                                                OnClick="@(() => NavigateToOrderHistory(context.CustomersID))"
+                                               Color="Color.Success" />
+                            }
+                            else
+                            {
+                                <!-- 没有订单，显示购物车图标 -->
+                                <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart"
+                                               OnClick="@(() => NavigateToOrder(context.CustomersID))"
+                                               Title="创建订单"
+                                               Color="Color.Primary" />
+                            }
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           OnClick="@(async () => await DeleteCustomer(context.Id,context))"
+                                           Color="Color.Error" />
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="@(new int[] { 10, 25, 50 })" />
+                    </PagerContent>
+                    <NoRecordsContent>
+                        <MudText>没有找到客户记录</MudText>
+                    </NoRecordsContent>
+                </MudTable>
+            </MudCardContent>
+        </MudCard>
+
+    </MudTabPanel>
+
+</MudTabs>
+
+@code {
+    private Customer _newcustomer = new();
+    private MudForm _form;
+    private bool _isLoading = true;
+    private List<Customer> _customers = new();
+    private CancellationTokenSource _cts = new();
+    private List<int?> _customersWithOrders = new();
+    private List<Order> _order;
+    bool _centered = true;
+    private string _searchString = "";
+
+    private void NavigateToOrder(int? customerId)
+    {
+        NavigationManager.NavigateTo($"/customerorder/{customerId}");
+    }
+    private void NavigateToOrderHistory(int? customerId)
+    {
+        NavigationManager.NavigateTo($"/orderhistory/{customerId}");
+    }
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            int maxId = await CustomerService.GetMaxCustomerID();
+            _newcustomer.CustomersID = maxId + 1;
+            _customers = await CustomerService.GetAllCustomersAsync();
+            _customersWithOrders = await OrderService.GetCustomersWithOrdersAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"获取客户ID失败: {ex.Message}", Severity.Error);
+            _newcustomer.CustomersID = 1;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private bool HasOrder(int? customerId)
+    {
+        return _customersWithOrders.Contains(customerId);
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+    private async Task SubmitForm()
+    {
+        await _form.Validate();
+
+        if (_form.IsValid)
+        {
+            try
+            {
+                await CustomerService.AddCustomer(_newcustomer);
+                Snackbar.Add($"添加成功", Severity.Success);
+
+                // 刷新客户列表
+                _customers = await CustomerService.GetAllCustomersAsync();
+                NavigationManager.NavigateTo($"/customerorder/{_newcustomer.CustomersID}");
+                _newcustomer = new Customer();
+                int maxId = await CustomerService.GetMaxCustomerID();
+                _newcustomer.CustomersID = maxId + 1;
+
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Error adding customer: {ex.Message}", Severity.Error);
+            }
+        }
+        else
+        {
+            Snackbar.Add("Please correct the validation errors", Severity.Warning);
+        }
+    }
+
+    private async Task DeleteCustomer(int id, Customer customer)
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            CloseButton = true, // 确保关闭按钮启用
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var parameters = new DialogParameters<DeleteConfirmationDialog>
+        {
+            {x => x.ContentText, $"确定要删除客户 {customer.CustomersName} (ID: {customer.CustomersID}) 吗?"},
+            { x => x.ButtonText, "Delete" },
+            { x => x.Color, Color.Error }
+        };
+
+        var dialog = DialogService.Show<DeleteConfirmationDialog>("警告", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is bool confirmed && confirmed)
+        {
+            try
+            {
+                await CustomerService.DeleteCustomerAsync(id);
+                _customers.Remove(customer);
+                Snackbar.Add($"客户 {customer.CustomersName} 已删除", Severity.Success);
+                int maxId = await CustomerService.GetMaxCustomerID();
+                _newcustomer.CustomersID = maxId + 1;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"删除失败: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    private IEnumerable<Customer> FilteredCustomers =>
+       _customers.Where(c =>
+           string.IsNullOrWhiteSpace(_searchString) ||
+           c.CustomersName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+           c.IC.Contains(_searchString) ||
+           c.PhoneNumber.Contains(_searchString) ||
+           c.Location.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+}

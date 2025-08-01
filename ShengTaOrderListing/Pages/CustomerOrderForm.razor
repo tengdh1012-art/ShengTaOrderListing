@@ -1,0 +1,263 @@
+﻿@page "/customerorder/{CustomerId:int}"
+@using ShengTaOrderListing.Models
+@using ShengTaOrderListing.Services
+@using ShengTaOrderListing.Components
+@inject CustomerService CustomerService
+@inject StoreService StoreService
+@inject OrderService OrderService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@using MudBlazor
+@inject NavigationManager NavigationManager
+@using System.Text.Json
+
+<MudTabs Centered="_centered" Color="Color.Primary">
+    <MudTabPanel Text="Order">
+    @if (_customer == null)
+    {
+        <MudProgressCircular Color="Color.Primary" />
+    }
+    else
+    {
+        <MudPaper Elevation="3" Class="pa-4 mb-4">
+            <MudText Typo="Typo.h5">Customer: @_customer?.CustomersName</MudText>
+            <MudText>Customer ID: @_customer?.CustomersID</MudText>
+            <MudText>Location: @_customer?.Location</MudText>
+        </MudPaper>
+            <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="NavigateBack">
+                <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="me-2" />
+                返回
+            </MudButton>
+        <MudCard>
+            <MudCardContent>
+                <MudTable Items="@FilteredStore" Loading="@_isLoading" Elevation="5">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Product List</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="Search..."
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+
+                    <HeaderContent>
+                        <MudTh>ID</MudTh>
+                        <MudTh>Product Name</MudTh>
+                        <MudTh>Company</MudTh>
+                        <MudTh>Max Order</MudTh>
+                         <MudTh>Market Price (RM)</MudTh>
+                        <MudTh>Member Price (RM)</MudTh>
+                        <MudTh>Quantity</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        <MudTd>@context.Storeid</MudTd>
+                        <MudTd>@context.ProductName</MudTd>
+                        <MudTd>@context.Company</MudTd>
+                        <MudTd>@context.MaxOrder@context.Unit</MudTd>
+                        <MudTd>@context.MarketPrice?.ToString("F2")</MudTd>
+                        <MudTd>@context.MemberPrice?.ToString("F2")</MudTd>
+                            <MudTd>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <MudNumericField T="int?" @bind-Value="@_quantities[context.Storeid]"
+                                                     Min="0"
+                                                     Max="@(context.MaxOrder ?? 0)"
+                                                     Immediate="true"
+                                                     Variant="Variant.Outlined"
+                                                     Style="max-width: 100px;" />
+                                    <MudButton Variant="Variant.Outlined"
+                                               Color="Color.Primary"
+                                               Size="Size.Small"
+                                               OnClick="@(() => SetMaxQuantity(context.Storeid))"
+                                               Disabled="@(context.MaxOrder == null || context.MaxOrder <= 0)"
+                                               StartIcon="@Icons.Material.Filled.ArrowUpward"
+                                               Style="min-width: 60px;">
+                                        Max
+                                    </MudButton>
+                                </div>
+                            </MudTd>
+                    </RowTemplate>
+
+                    <NoRecordsContent>
+                        <MudText>No products found</MudText>
+                    </NoRecordsContent>
+                </MudTable>
+                    
+            </MudCardContent>
+        </MudCard>
+
+        <div class="d-flex justify-end mt-4">
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       OnClick="SubmitOrder"
+                       Disabled="@(!_quantities.Values.Any(q => q > 0))">
+                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" /> Submit Order
+            </MudButton>
+        </div>
+    }
+    </MudTabPanel>
+    
+    </MudTabs>
+
+@code {
+    [Parameter]
+    public int CustomerId { get; set; }
+    bool _centered = true;
+
+    private Customer _customer;
+    private List<Order> _order;
+    private List<Store> _store = new List<Store>();
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private Dictionary<int, int?> _quantities = new Dictionary<int, int?>();
+
+
+    private void SetMaxQuantity(int productId)
+    {
+        var product = _store.FirstOrDefault(p => p.Storeid == productId);
+        if (product != null && product.MaxOrder.HasValue && product.MaxOrder.Value > 0)
+        {
+            _quantities[productId] = product.MaxOrder.Value;
+            StateHasChanged();
+        }
+    }
+
+    private void NavigateToOrder(int customerId)
+    {
+        NavigationManager.NavigateTo($"/orderhistory/{customerId}");
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo($"/");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // 获取客户信息
+            _customer = await CustomerService.GetCustomerByIdAsync(CustomerId);
+            if (_customer == null)
+            {
+                Snackbar.Add("Customer not found", Severity.Error);
+                return;
+            }
+
+            // 获取所有产品
+            _store = await StoreService.GetAllStoreAsync();
+            _order = await OrderService.GetAllOrdersAsync();
+
+            // 初始化数量字典
+            foreach (var product in _store)
+            {
+                _quantities[product.Storeid] = 0; // 默认数量为0
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"An error occurred: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private IEnumerable<Store> FilteredStore => 
+        _store.Where(s => 
+            string.IsNullOrWhiteSpace(_searchString) ||
+            s.ProductName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            (s.Company != null && s.Company.Contains(_searchString, StringComparison.OrdinalIgnoreCase)));
+
+    private async Task SubmitOrder()
+    {
+        // 创建订单项
+        var orderItems = _store
+             .Where(p => _quantities[p.Storeid] >= 0)
+             .Select(p => new
+             {
+                 ProductId = p.Storeid,
+                 ProductName = p.ProductName,
+                 Quantity = _quantities[p.Storeid],
+                 Unit = p.Unit.ToString(),
+                 MemberPrice = p.MemberPrice,
+                 MarketPrice = p.MarketPrice,
+                 MaxOrder = p.MaxOrder,
+                 Company = p.Company,
+             })
+             .ToList();
+
+        if (!orderItems.Any())
+        {
+            Snackbar.Add("Please select at least one product", Severity.Warning);
+            return;
+        }
+
+
+        var order = new Order
+        {
+            CustomersID = _customer.CustomersID??0,
+            CustomersName = _customer.CustomersName,
+            OrderD = JsonSerializer.Serialize(orderItems)
+        };
+
+        try
+        {
+            await OrderService.AddOrderAsync(order);
+            Snackbar.Add("Order submitted successfully", Severity.Success);
+
+            // 重置数量
+            foreach (var key in _quantities.Keys.ToList())
+            {
+                _quantities[key] = 0;
+            }
+            NavigationManager.NavigateTo($"/");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error submitting order: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task DeleteOrder(int id, Order order)
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            CloseButton = true, // 确保关闭按钮启用
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var parameters = new DialogParameters<DeleteConfirmationDialog>
+        {
+            {x => x.ContentText, $"确定要删除客户 {order.CustomersName} 的订单吗?"},
+            { x => x.ButtonText, "Delete" },
+            { x => x.Color, Color.Error }
+        };
+
+        var dialog = DialogService.Show<DeleteConfirmationDialog>("警告", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is bool confirmed && confirmed)
+        {
+            try
+            {
+                await CustomerService.DeleteCustomerAsync(id);
+                _order.Remove(order);
+                Snackbar.Add($"客户 {order.CustomersName} 已删除", Severity.Success);
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"删除失败: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    private IEnumerable<Order> FilteredCustomers =>
+      _order.Where(c =>
+          string.IsNullOrWhiteSpace(_searchString) ||
+          c.CustomersName.Contains(_searchString, StringComparison.OrdinalIgnoreCase));
+
+    
+}

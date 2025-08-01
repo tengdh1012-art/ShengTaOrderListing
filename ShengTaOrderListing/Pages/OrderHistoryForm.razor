@@ -1,0 +1,337 @@
+﻿@page "/orderhistory/{CustomerId:int}"
+@using ShengTaOrderListing.Models
+@using ShengTaOrderListing.Services
+@using ShengTaOrderListing.Components
+@inject CustomerService CustomerService
+@inject StoreService StoreService
+@inject OrderService OrderService
+@inject FileService FileService
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@using MudBlazor
+
+@using System.Text.Json
+
+<MudTabs Centered="_centered" Color="Color.Primary">
+    <MudTabPanel Text="Customer Order Details">
+        <MudPaper Elevation="3" Class="pa-4 mb-4">
+            <MudText Typo="Typo.h5">Customer: @_customer?.CustomersName</MudText>
+            <MudText>Customer ID: @_customer?.CustomersID</MudText>
+            <MudText>Location: @_customer?.Location</MudText> 
+        </MudPaper>
+        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="NavigateBack">
+            <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="me-2" />
+            返回
+        </MudButton>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Success"
+                   OnClick="GenerateExcelReport"
+                   StartIcon="@Icons.Material.Filled.Download"
+                   Class="ml-2">
+            Generate Report
+        </MudButton>
+        <MudCard>
+            <MudCardContent>
+                
+                <MudTable Items="@GroupedStore" Loading="@_isLoading" Elevation="5">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">客户列表</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="_searchString" Immediate="true" Placeholder="搜索..."
+                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh></MudTh>
+                        <MudTh>Product Name</MudTh>
+                        <MudTh>Market Price</MudTh>
+                        <MudTh>Member Price</MudTh>
+                        <MudTh>Max Order</MudTh>
+                        <MudTh>Quantity</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        @if (context.IsGroupHeader)
+                        {
+                            var rotationStyle = $"transform: {GetGroupIconRotation(context.Company)};";
+                            var hasOrder = context.HasOrder;
+                            <MudTd ColSpan="6">
+                                <div style="display:flex; align-items:center;">
+                                    <MudIconButton 
+                                        Icon="@Icons.Material.Filled.ExpandMore" 
+                                        OnClick="@(() => ToggleGroup(context.Company))"
+                                        Class="mr-2"
+                                        IconClass="@(GetGroupIconClass(context.Company))"
+                                        Style="@rotationStyle"
+                                        Color="Color.Primary" />
+                                    <MudText Typo="Typo.h6" Color="@(hasOrder? Color.Success: Color.Error)">Company：@context.Company
+                                        @if (hasOrder)
+                                        {
+                                            <span> (有订单)</span>
+                                        }
+                                        else
+                                        {
+                                            <span> (无订单)</span>
+                                        }
+                                    </MudText>
+                                </div>
+                            </MudTd>
+                        }
+                        else if (context.IsSummaryRow)
+                        {
+                        // 汇总行
+                            <MudTd></MudTd>
+                            <MudTd DataLabel="Product Name"><strong>Total:</strong></MudTd>
+                            <MudTd></MudTd>
+                            <MudTd></MudTd>
+                            <MudTd></MudTd>
+                            <MudTd DataLabel="Quantity"><strong>@context.Quantity</strong></MudTd>
+                        }
+                        else
+                        {
+                            <MudTd></MudTd>
+                            <MudTd DataLabel="Product Name">@context.ProductName</MudTd>
+                            <MudTd DataLabel="Market Price">@context.MarketPrice?.ToString("F2")</MudTd>
+                            <MudTd DataLabel="Member Price">@context.MemberPrice?.ToString("F2")</MudTd>
+                            <MudTd DataLabel="Max Order">@context.MaxOrder @context.Unit</MudTd>
+                            <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
+                        }
+                    </RowTemplate>
+                    @* <PagerContent>
+                        <MudTablePager PageSizeOptions="@(new int[] { 10, 25, 50 ,100})" />
+                    </PagerContent> *@
+                    <NoRecordsContent>
+                        <MudText>没有找到客户记录</MudText>
+                    </NoRecordsContent>
+                </MudTable>
+            </MudCardContent>
+            
+        </MudCard>
+    </MudTabPanel>
+</MudTabs>
+
+@code {
+        [Parameter]
+        public int CustomerId { get; set; }
+
+        bool _centered = true;
+    private List<OrderItemDetail> products = new();
+    private OrderItemDetail selectedItem;
+    private Customer _customer;
+    private List<Order> _order = new();
+    private Order _customerOrder;
+    private List<OrderItemDetail> _orderitemdetail = new();
+
+    private List<Store> _store = new List<Store>();
+    private bool _isLoading = true;
+    private string _searchString = "";
+    private Dictionary<int, int?> _quantities = new Dictionary<int, int?>();
+
+    private Dictionary<string, bool> _groupExpandedState = new Dictionary<string, bool>();
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo($"/order");
+    }
+
+    private void ToggleGroup(string company)
+    {
+        if (_groupExpandedState.ContainsKey(company))
+        {
+            _groupExpandedState[company] = !_groupExpandedState[company];
+        }
+        else
+        {
+            _groupExpandedState[company] = true;
+        }
+        StateHasChanged();
+    }
+
+    private string GetGroupIconClass(string company)
+    {
+        return _groupExpandedState.TryGetValue(company, out var expanded) && expanded
+            ? "mud-transform-180"
+            : "";
+    }
+
+    private string GetGroupIconRotation(string company)
+    {
+        return _groupExpandedState.TryGetValue(company, out var expanded) && expanded
+            ? "rotate(180deg)"
+            : "rotate(0deg)";
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // 获取所有产品
+            _customer = await CustomerService.GetCustomerByIdAsync(CustomerId);
+            if (_customer == null)
+            {
+                Snackbar.Add("Customer not found", Severity.Error);
+                return;
+            }
+            _store = await StoreService.GetAllStoreAsync();
+            var allOrders = await OrderService.GetOrderByIdAsync(CustomerId);
+            _customerOrder = allOrders;
+            LoadProductData(allOrders);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"An error occurred: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void LoadProductData(Order Order)
+    {
+        // 原始JSON字符串（已处理转义）
+        string json = Order.OrderD.ToString();
+
+        // 解析JSON
+        products = JsonSerializer.Deserialize<List<OrderItemDetail>>(json);
+    }
+
+
+    private async Task DeleteOrder(int id, Order order)
+    {
+        var options = new DialogOptions
+        {
+            CloseOnEscapeKey = true,
+            CloseButton = true, // 确保关闭按钮启用
+            FullWidth = true,
+            MaxWidth = MaxWidth.Small
+        };
+
+        var parameters = new DialogParameters<DeleteConfirmationDialog>
+        {
+            {x => x.ContentText, $"确定要删除客户 {order.CustomersName} 的订单吗?"},
+            { x => x.ButtonText, "Delete" },
+            { x => x.Color, Color.Error }
+        };
+
+        var dialog = DialogService.Show<DeleteConfirmationDialog>("警告", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is bool confirmed && confirmed)
+        {
+            try
+            {
+                await OrderService.DeleteOrderAsync(id);
+                _order.Remove(order);
+                Snackbar.Add($"客户 {order.CustomersName} 已删除", Severity.Success);
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"删除失败: {ex.Message}", Severity.Error);
+            }
+        }
+    }
+
+    private IEnumerable<OrderItemDetail> FilteredCustomers =>
+      string.IsNullOrEmpty(_searchString)
+            ? products
+            : products.Where(p =>
+                p.ProductName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                p.ProductId.ToString().Contains(_searchString));
+
+    private async Task GenerateExcelReport()
+    {
+        if (_customerOrder == null)
+        {
+            Snackbar.Add("没有可导出的顾客订单", Severity.Warning);
+            return;
+        }
+        Console.WriteLine(_customerOrder.CustomersID);
+        try
+        {
+            var reportBytes = await OrderService.GenerateCustomerReportExcelAsync(new List<Order> { _customerOrder },_customerOrder.CustomersID);
+
+            var fileName = $"2025_PPSM_Members_Day_Order_Listing_{_customerOrder.CustomersName}.xlsx";
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+            await File.WriteAllBytesAsync(filePath, reportBytes);
+
+            //NavigationManager.NavigateTo($"/download?file={Uri.EscapeDataString(filePath)}", true);
+
+            await FileService.SaveAsFile(
+                fileName,
+                reportBytes,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+
+            Snackbar.Add($"Report generated successfully: {fileName}", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Failed to generate report: {ex.Message}", Severity.Error);
+        }
+
+
+    }
+
+    private List<OrderItemDetail> GroupedStore
+    {
+        get
+        {
+            // 创建一个字典来记录每个分组是否有订单
+            var hasOrderDict = new Dictionary<string, bool>();
+
+            // 首先处理分组数据
+            var groupedData = products
+                .Where(c => string.IsNullOrWhiteSpace(_searchString) ||
+                            c.ProductName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+                            (c.Company != null && c.Company.Contains(_searchString, StringComparison.OrdinalIgnoreCase)))
+                .GroupBy(x => x.Company);
+
+            // 检查每个分组是否有订单（quantity > 0）
+            foreach (var group in groupedData)
+            {
+                hasOrderDict[group.Key] = group.Any(item => item.Quantity > 0);
+            }
+
+            return groupedData
+                .SelectMany(group =>
+                {
+                    var groupList = new List<OrderItemDetail>();
+
+                    // 添加分组头 - 添加HasOrder属性
+                    groupList.Add(new OrderItemDetail
+                    {
+                        IsGroupHeader = true,
+                        Company = group.Key,
+                        HasOrder = hasOrderDict[group.Key] // 添加是否有订单的标记
+                    });
+
+                    // 如果分组是展开状态，添加产品项
+                    if (_groupExpandedState.TryGetValue(group.Key, out var expanded) && expanded)
+                    {
+                        groupList.AddRange(group.Select(item => new OrderItemDetail
+                        {
+                            IsGroupHeader = false,
+                            ProductName = item.ProductName,
+                            MaxOrder = item.MaxOrder,
+                            Unit = item.Unit,
+                            MarketPrice = item.MarketPrice,
+                            MemberPrice = item.MemberPrice,
+                            Quantity = item.Quantity,
+                            Company = item.Company
+                        }));
+                        var totalQuantity = group.Sum(item => item.Quantity);
+                        groupList.Add(new OrderItemDetail
+                        {
+                            IsSummaryRow = true,
+                            Quantity = totalQuantity,
+                            Company = group.Key
+                        });
+                    }
+
+                    return groupList;
+                })
+                .ToList();
+        }
+    }
+    }
