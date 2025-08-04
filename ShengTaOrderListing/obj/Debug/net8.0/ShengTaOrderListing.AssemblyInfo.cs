@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShengTaOrderListing")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40b0efe37b7c3d1a7b26cf03711f762bfe25c14c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9eeb9333e49fa2e3b508a2b4aa699cca49acf599")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShengTaOrderListing")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShengTaOrderListing")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

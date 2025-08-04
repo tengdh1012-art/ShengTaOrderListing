@@ -31,13 +31,14 @@
         }
     };
 </script>
+<MudContainer MaxWidth="MaxWidth.Large" Class="pa-2">
 <MudTabs Centered="_centered" Color="Color.Primary">
     <MudTabPanel Text="Register Customers">
         <MudCard>
             <MudCardContent>
                 <MudForm @ref="_form" Model="_newcustomer">
 
-                    <MudGrid>
+                    <MudGrid Spacing="2">
                         <MudItem xs="12" md="6">
                             <MudTextField @bind-Value="_newcustomer.CustomersID"
                                           Label="Customer ID"
@@ -108,6 +109,7 @@
     <MudTabPanel Text="Customer Details">
         <MudCard>
             <MudCardContent>
+                <div style="overflow-x:auto;">
                 <MudTable Items="@FilteredCustomers" Loading="@_isLoading" Elevation="5">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">客户列表</MudText>
@@ -162,12 +164,14 @@
                         <MudText>没有找到客户记录</MudText>
                     </NoRecordsContent>
                 </MudTable>
+                </div>
             </MudCardContent>
         </MudCard>
 
     </MudTabPanel>
 
 </MudTabs>
+</MudContainer>
 
 @code {
     private Customer _newcustomer = new();
