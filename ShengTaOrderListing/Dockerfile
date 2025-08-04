@@ -13,13 +13,18 @@ COPY . .
 RUN dotnet publish "ShengTaOrderListing.csproj" -c Release -o /app/publish
 
 # ========================
-# 运行镜像
+# 运行镜像 + GDI+ 依赖
 # ========================
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
-# 📦 无需安装 libssl-dev 或 libmariadb-dev，MySqlConnector 不依赖本地库
-# 复制发布内容
+# 📦 添加 GDI+ 所需依赖（修复报表导出崩溃）
+RUN apt-get update && \
+    apt-get install -y libgdiplus libc6-dev && \
+    ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll || true && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 拷贝发布内容
 COPY --from=build /app/publish .
 
 # 设置入口
