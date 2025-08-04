@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Ha9gtKcCkv8=",
+  "dgSpecHash": "/h/ZlPrdiW8=",
   "success": true,
   "projectFilePath": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\ShengTaOrderListing.csproj",
   "expectedPackageFiles": [
@@ -47,6 +47,7 @@
     "C:\\Users\\User\\.nuget\\packages\\microsoft.jsinterop\\8.0.12\\microsoft.jsinterop.8.0.12.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\microsoft.visualstudio.azure.containers.tools.targets.1.22.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mudblazor\\8.10.0\\mudblazor.8.10.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\mudblazor.thememanager\\3.0.0\\mudblazor.thememanager.3.0.0.nupkg.sha512",

@@ -1,0 +1,611 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Hui\\ShengTaOrderListing\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\services\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\build\\Container.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\addcompanydialog.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\addcompanydialog.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\shengtaorderlisting.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\shengtaorderlisting.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\pages\\orderhistoryform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\pages\\orderhistoryform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\pages\\customerorderform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\pages\\customerorderform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\pages\\storeform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\pages\\storeform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\models\\store.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\models\\store.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\pages\\customerform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\pages\\customerform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\pages\\orderform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\pages\\orderform.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\services\\excelexportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\services\\excelexportservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\services\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\services\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\deleteconfirmationdialog.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\deleteconfirmationdialog.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\editproductdialog.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\editproductdialog.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\app.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\app.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\program.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\program.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\pages\\counter.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\pages\\error.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\pages\\error.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|c:\\hui\\shengtaorderlisting\\shengtaorderlisting\\components\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{561AD187-C348-4232-91D4-5AFCCD137C01}|ShengTaOrderListing\\ShengTaOrderListing.csproj|solutionrelative:shengtaorderlisting\\components\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\User\\.nuget\\packages\\epplus\\8.0.8\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 318,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 181,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\appsettings.json",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\appsettings.json",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\appsettings.json*",
+              "RelativeToolTip": "ShengTaOrderListing\\appsettings.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-23T02:42:49.992Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Container.targets",
+              "DocumentMoniker": "C:\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\build\\Container.targets",
+              "RelativeDocumentMoniker": "..\\..\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\build\\Container.targets",
+              "ToolTip": "C:\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\build\\Container.targets",
+              "RelativeToolTip": "..\\..\\Users\\User\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.22.1\\build\\Container.targets",
+              "ViewState": "AgIAALwAAAAAAAAAAAAwwNkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-08-04T07:28:32.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Dockerfile",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Dockerfile",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Dockerfile",
+              "RelativeToolTip": "ShengTaOrderListing\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-04T07:27:56.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Services\\OrderService.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\OrderService.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Services\\OrderService.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAMwCgAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-01T04:52:00.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "StoreService.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\StoreService.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Services\\StoreService.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\StoreService.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Services\\StoreService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T08:14:32.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "OrderHistoryForm.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\OrderHistoryForm.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Pages\\OrderHistoryForm.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\OrderHistoryForm.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Pages\\OrderHistoryForm.razor",
+              "ViewState": "AgIAACEBAAAAAAAAAAAwwEgBAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T08:03:59.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Program.txt",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Program.txt",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Program.txt",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Program.txt",
+              "RelativeToolTip": "ShengTaOrderListing\\Program.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwDEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-07-24T06:00:33.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "App.txt",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\App.txt",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\App.txt",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\App.txt",
+              "RelativeToolTip": "ShengTaOrderListing\\App.txt",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAqwCMAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-07-24T06:00:15.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Routes.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Routes.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Routes.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Routes.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Routes.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:45:24.856Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "App.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\App.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\App.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\App.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\App.razor",
+              "ViewState": "AgIAAA8AAAAAAAAAAIBJwC4AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:45:22.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CustomerForm.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\CustomerForm.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Pages\\CustomerForm.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\CustomerForm.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Pages\\CustomerForm.razor",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAkwIQAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T02:44:29.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Counter.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Counter.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Pages\\Counter.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Counter.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Pages\\Counter.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:45:26.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Error.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Error.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Pages\\Error.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Error.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Pages\\Error.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:33:30.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T03:30:32.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "NavMenu.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Layout\\NavMenu.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Layout\\NavMenu.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Layout\\NavMenu.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Layout\\NavMenu.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:28:33.088Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Layout\\MainLayout.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:28:28.787Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ShengTaOrderListing.csproj",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\ShengTaOrderListing.csproj",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\ShengTaOrderListing.csproj",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\ShengTaOrderListing.csproj",
+              "RelativeToolTip": "ShengTaOrderListing\\ShengTaOrderListing.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-23T08:47:05.336Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Pages\\Home.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Home.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:25:13.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Weather.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Weather.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\Pages\\Weather.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\Pages\\Weather.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\Pages\\Weather.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:25:13.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "_Imports.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\_Imports.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\_Imports.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\_Imports.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\_Imports.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T03:19:35.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Program.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Program.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Program.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T03:10:44.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "readme.txt",
+              "DocumentMoniker": "C:\\Users\\User\\.nuget\\packages\\epplus\\8.0.8\\readme.txt",
+              "RelativeDocumentMoniker": "..\\..\\Users\\User\\.nuget\\packages\\epplus\\8.0.8\\readme.txt",
+              "ToolTip": "C:\\Users\\User\\.nuget\\packages\\epplus\\8.0.8\\readme.txt",
+              "RelativeToolTip": "..\\..\\Users\\User\\.nuget\\packages\\epplus\\8.0.8\\readme.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-07-23T03:04:17.202Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 219,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Models\\Customer.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Models\\Customer.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Models\\Customer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T02:44:15.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Store.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Models\\Store.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Models\\Store.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Models\\Store.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Models\\Store.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-24T07:12:11.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Order.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Models\\Order.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Models\\Order.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Models\\Order.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Models\\Order.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAAAUAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:21:54.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CustomerService.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\CustomerService.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Services\\CustomerService.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\CustomerService.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Services\\CustomerService.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAtwHAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T02:45:21.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FileService.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\FileService.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Services\\FileService.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\FileService.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Services\\FileService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-29T01:44:59.338Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "OrderForm.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\OrderForm.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Pages\\OrderForm.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\OrderForm.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Pages\\OrderForm.razor",
+              "ViewState": "AgIAABUAAAAAAAAAAIBJwFcAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T06:38:19.987Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ExcelExportService.cs",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\ExcelExportService.cs",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Services\\ExcelExportService.cs",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Services\\ExcelExportService.cs",
+              "RelativeToolTip": "ShengTaOrderListing\\Services\\ExcelExportService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T06:02:19.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CustomerOrderForm.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\CustomerOrderForm.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Pages\\CustomerOrderForm.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\CustomerOrderForm.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Pages\\CustomerOrderForm.razor",
+              "ViewState": "AgIAABUAAAAAAAAAAAAgwNIAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T04:22:19.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "EditProductDialog.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\EditProductDialog.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\EditProductDialog.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\EditProductDialog.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\EditProductDialog.razor",
+              "ViewState": "AgIAACkAAAAAAAAAAAAqwJkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-28T01:27:49.248Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AddCompanyDialog.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\AddCompanyDialog.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\AddCompanyDialog.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\AddCompanyDialog.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\AddCompanyDialog.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-25T03:13:16.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "StoreForm.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\StoreForm.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Pages\\StoreForm.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Pages\\StoreForm.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Pages\\StoreForm.razor",
+              "ViewState": "AgIAAN8BAAAAAAAAAAAuwAQCAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-24T07:57:01.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DeleteConfirmationDialog.razor",
+              "DocumentMoniker": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\DeleteConfirmationDialog.razor",
+              "RelativeDocumentMoniker": "ShengTaOrderListing\\Components\\DeleteConfirmationDialog.razor",
+              "ToolTip": "C:\\Hui\\ShengTaOrderListing\\ShengTaOrderListing\\Components\\DeleteConfirmationDialog.razor",
+              "RelativeToolTip": "ShengTaOrderListing\\Components\\DeleteConfirmationDialog.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T09:32:29.908Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
