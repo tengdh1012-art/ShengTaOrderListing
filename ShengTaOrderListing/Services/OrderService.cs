@@ -284,7 +284,7 @@ public class OrderService
         worksheet.Cells[row, 2, row, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         row++;
 
-        string[] invoce = new[]
+        string[] invoces = new[]
         {
             "Company Name",
             "Registration Number",
@@ -302,9 +302,9 @@ public class OrderService
 
         if (!string.IsNullOrWhiteSpace(customer.CompanyName))
         {
-            for (int i = 0; i < invoce.Length; i++)
+            for (int i = 0; i < invoces.Length; i++)
             {
-                worksheet.Cells[row, 2].Value = invoce[i];
+                worksheet.Cells[row, 2].Value = invoces[i];
                 worksheet.Cells[row, 2].Style.Font.Bold = true;
                 worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.LightGray);
