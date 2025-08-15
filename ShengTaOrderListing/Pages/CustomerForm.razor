@@ -93,6 +93,38 @@
                                           Label="Plating Area"
                                           Multiline="true" />
                         </MudItem>
+                        <MudItem xs="12">
+                                <MudCheckBox @bind-Value="_needOrder" Label="是否立即开单" Color="Color.Primary" />
+                            </MudItem>
+
+                            @if (_needOrder)
+                            {
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="_newcustomer.CompanyName"
+                                                  Required="true"
+                                                  RequiredError="Required"
+                                                  Label="Company Name" />
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="_newcustomer.RegistrationNumber"
+                                                  Required="true"
+                                                  RequiredError="Required"
+                                                  Label="Company Registration Number" />
+                                </MudItem>
+                                <MudItem xs="12" md="6">
+                                    <MudTextField @bind-Value="_newcustomer.TinNumber"
+                                                  Required="true"
+                                                  RequiredError="Required"
+                                                  Label="Company Tin Number" />
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudTextField @bind-Value="_newcustomer.CompanyAddress"
+                                                  Required="true"
+                                                  RequiredError="Required"
+                                                  Label="Company Address"
+                                                  Multiline="true" />
+                                </MudItem>
+                            }
                     </MudGrid>
                 </MudForm>
             </MudCardContent>
@@ -183,6 +215,8 @@
     private List<Order> _order;
     bool _centered = true;
     private string _searchString = "";
+    private bool _needOrder = false;
+
 
     private void NavigateToOrder(int? customerId)
     {

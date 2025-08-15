@@ -10,4 +10,11 @@ public class Customer
     public string? Location { get; set; }
     public string? TypeCrops { get; set; }
     public string? PlatingArea { get; set; }
+
+    private bool _needOrder = false;
+    public string CompanyName { get; set; }
+    public string RegistrationNumber { get; set; }
+    public string TinNumber { get; set; }  
+    public string CompanyAddress { get; set; }
+
 }

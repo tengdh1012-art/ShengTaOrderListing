@@ -249,8 +249,8 @@ public class OrderService
             "Plating Area:"
         };
 
-                string[] values = new[]
-                {
+        string[] values = new[]
+        {
             customer.CustomersName,
             customer.IC,
             customer.PhoneNumber,
@@ -274,6 +274,50 @@ public class OrderService
             worksheet.Cells[row, 3].Style.Border.BorderAround(ExcelBorderStyle.Thin);
             row++;
         }
+        row++;
+        worksheet.Cells[row, 2].Value = "开单";
+        worksheet.Cells[row, 2, row, 3].Merge = true;
+        worksheet.Cells[row, 2, row, 3].Style.Font.Bold = true;
+        worksheet.Cells[row, 2, row, 3].Style.Font.Size = 14;
+        worksheet.Cells[row, 2, row, 3].Style.Fill.PatternType = ExcelFillStyle.Solid;
+        worksheet.Cells[row, 2, row, 3].Style.Fill.BackgroundColor.SetColor(Color.LightBlue);
+        worksheet.Cells[row, 2, row, 3].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+        row++;
+
+        string[] invoce = new[]
+        {
+            "Company Name",
+            "Registration Number",
+            "Tin Number",
+            "CompanyAddress",
+        };
+
+        string[] invocevalues = new[]
+        {
+            customer.CompanyName,
+            customer.RegistrationNumber,
+            customer.TinNumber,
+            customer.CompanyAddress
+        };
+
+        if (!string.IsNullOrWhiteSpace(customer.CompanyName))
+        {
+            for (int i = 0; i < invoce.Length; i++)
+            {
+                worksheet.Cells[row, 2].Value = invoce[i];
+                worksheet.Cells[row, 2].Style.Font.Bold = true;
+                worksheet.Cells[row, 2].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                worksheet.Cells[row, 2].Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+                worksheet.Cells[row, 2].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+                worksheet.Cells[row, 2].Style.Font.Size = 12;
+                worksheet.Cells[row, 2].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+
+                worksheet.Cells[row, 3].Value = invocevalues[i];
+                worksheet.Cells[row, 3].Style.Font.Size = 12;
+                worksheet.Cells[row, 3].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                row++;
+            }
+        }   
         worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
         return await Task.FromResult(package.GetAsByteArray());
     }
