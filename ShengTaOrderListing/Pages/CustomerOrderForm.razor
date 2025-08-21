@@ -196,9 +196,8 @@
 
     private async Task SubmitOrder()
     {
-
         float totalAmount = CalculateTotalAmount();
-        // 创建订单项
+
         var orderItems = _store
              .Where(p => _quantities[p.Storeid] >= 0)
              .Select(p => new
@@ -220,39 +219,29 @@
             return;
         }
 
-
+        // 🔹 把 Order 数据传给 Dialog，而不是这里直接存
         var order = new Order
         {
-            CustomersID = _customer.CustomersID??0,
+            CustomersID = _customer.CustomersID ?? 0,
             CustomersName = _customer.CustomersName,
             OrderD = JsonSerializer.Serialize(orderItems),
             Totalamount = totalAmount,
             City = _customer.City
         };
 
-        var orderDetail = new
+        var parameters = new DialogParameters
         {
-            Items = orderItems,
-            TotalAmount = totalAmount
+            ["TotalAmount"] = totalAmount,
+            ["Order"] = order   // ✅ 传递整个订单
         };
 
-        try
-        {
-            await OrderService.AddOrderAsync(order);
-            Snackbar.Add("Order submitted successfully", Severity.Success);
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Small, FullWidth = true };
 
-            // 重置数量
-            foreach (var key in _quantities.Keys.ToList())
-            {
-                _quantities[key] = 0;
-            }
-            NavigationManager.NavigateTo($"/");
-        }
-        catch (Exception ex)
-        {
-            Snackbar.Add($"Error submitting order: {ex.Message}", Severity.Error);
-        }
+        var dialog = DialogService.Show<OrderResultDialog>("订单结果", parameters, options);
+        await dialog.Result; // 等待用户选择 OK / Cancel
     }
+
+
 
     private async Task DeleteOrder(int id, Order order)
     {

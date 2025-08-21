@@ -94,9 +94,9 @@
                             <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
                         }
                     </RowTemplate>
-                    @* <PagerContent>
-                        <MudTablePager PageSizeOptions="@(new int[] { 10, 25, 50 ,100})" />
-                    </PagerContent> *@
+                    <PagerContent>
+                        <MudTablePager PageSizeOptions="@(new int[] { 10, 25, 50, int.MaxValue })" />
+                    </PagerContent>
                     <NoRecordsContent>
                         <MudText>没有找到客户记录</MudText>
                     </NoRecordsContent>

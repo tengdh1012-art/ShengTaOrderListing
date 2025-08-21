@@ -1,0 +1,49 @@
+﻿@using MudBlazor
+@using ShengTaOrderListing.Services
+@using ShengTaOrderListing.Models
+@inject OrderService orderService
+<MudDialog>
+    <DialogContent>
+        <MudStack Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Large" />
+            <MudText Typo="Typo.h6">确认提交订单吗？</MudText>
+            <MudText Typo="Typo.subtitle1">
+                总金额:
+                <b style="color:red; font-size:1.2rem">RM @TotalAmount.ToString("F2")</b>
+            </MudText>
+        </MudStack>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Confirm">OK</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Outlined" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public float TotalAmount { get; set; }
+    [Parameter] public Order Order { get; set; }
+
+    [Inject] OrderService OrderService { get; set; } = default!;
+    [Inject] NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] ISnackbar Snackbar { get; set; } = default!;
+
+    private async Task Confirm()
+    {
+        try
+        {
+            await orderService.AddOrderAsync(Order);
+            Snackbar.Add("订单已成功提交", Severity.Success);
+
+            MudDialog.Close(DialogResult.Ok(true));
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"提交失败: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+}
