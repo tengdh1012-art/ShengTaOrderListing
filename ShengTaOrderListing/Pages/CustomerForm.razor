@@ -39,13 +39,13 @@
                 <MudForm @ref="_form" Model="_newcustomer">
 
                     <MudGrid Spacing="2">
-                        <MudItem xs="12" md="6">
+                        @* <MudItem xs="12" md="6">
                             <MudTextField @bind-Value="_newcustomer.CustomersID"
                                           Label="Customer ID"
                                           HelperText="Auto Generated"
                                           ReadOnly="true"
                                           Variant="Variant.Outlined" />
-                        </MudItem>
+                        </MudItem> *@
                         <MudItem xs="12" md="6">
                             <MudTextField @bind-Value="_newcustomer.CustomersName"
                                           Label="Full Name"
@@ -57,24 +57,39 @@
                             <MudTextField @bind-Value="_newcustomer.IC"
                                           Required="true"
                                           RequiredError="IC is Required"
-                                          Mask="@(new PatternMask("000000-00-0000"))"
-                                          HelperText="格式: 123456-12-1234"
+                                          Mask="@(new PatternMask("000000000000"))"
                                           Label="IC" />
                         </MudItem>
                         <MudItem xs="12" md="6">
                             <MudTextField @bind-Value="_newcustomer.PhoneNumber"
                                           Required="true"
                                           RequiredError="Phone Number is Required"
-                                          Mask="@(new PatternMask("000-0000000"))"
-                                          HelperText="格式: 012-3456789 或 012-34567890"
+                                          Mask="@(new PatternMask("00000000000"))"
                                           Label="Phone Number" />
                         </MudItem>
+
+                            <MudItem xs="12" md="6">
+                                <MudSelect Label="City"
+                                           Variant="Variant.Outlined"
+                                           AnchorOrigin="Origin.BottomCenter"
+                                           @bind-Value="_newcustomer.City"
+                                           Clearable>
+                                    <MudSelectItem Value="@CityValue.Bukit_Gambir">Bukit Gambir</MudSelectItem>
+                                    <MudSelectItem Value="@CityValue.Tangkak">Tangkak</MudSelectItem>
+                                    <MudSelectItem Value="@CityValue.Simpang_Renggam">Simpang Renggam</MudSelectItem>
+                                    <MudSelectItem Value="@CityValue.Penang">Penang</MudSelectItem>
+                                    <MudSelectItem Value="@CityValue.Pagoh">Pagoh</MudSelectItem>
+                                    <MudSelectItem Value="@CityValue.Kuala_Lumpur">Kuala Lumpur</MudSelectItem>
+                                    <MudSelectItem Value="@CityValue.Yong_Peng">Yong Peng</MudSelectItem>
+
+                                </MudSelect>
+                            </MudItem>
 
                         <MudItem xs="12">
                             <MudTextField @bind-Value="_newcustomer.Location"
                                           Label="Location"
                                           Required="true"
-                                          RequiredError="Location is Required"
+                                          RequiredError="Address is Required"
                                           Lines="2"
                                           Multiline="true" />
                         </MudItem>
@@ -138,7 +153,7 @@
             </MudCardActions>
         </MudCard>
     </MudTabPanel>
-    <MudTabPanel Text="Customer Details">
+@*     <MudTabPanel Text="Customer Details">
         <MudCard>
             <MudCardContent>
                 <div style="overflow-x:auto;">
@@ -200,7 +215,7 @@
             </MudCardContent>
         </MudCard>
 
-    </MudTabPanel>
+    </MudTabPanel> *@
 
 </MudTabs>
 </MudContainer>
@@ -213,6 +228,7 @@
     private CancellationTokenSource _cts = new();
     private List<int?> _customersWithOrders = new();
     private List<Order> _order;
+
     bool _centered = true;
     private string _searchString = "";
     private bool _needOrder = false;
@@ -258,6 +274,9 @@
         _cts?.Cancel();
         _cts?.Dispose();
     }
+
+    
+
     private async Task SubmitForm()
     {
         await _form.Validate();

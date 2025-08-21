@@ -25,7 +25,13 @@
                     <HeaderContent>
                         <MudTh>ID</MudTh>
                         <MudTh>Name</MudTh>
-                        <MudTh>Location</MudTh>
+                        <MudTh>Address</MudTh>
+                        <MudTh>City</MudTh>
+                        <MudTh>Company Name</MudTh>
+                        <MudTh>Registration Number</MudTh>
+                        <MudTh>Tin Number</MudTh>
+                        <MudTh>Company Address</MudTh>
+                        
                         <MudTh>操作</MudTh>
                     </HeaderContent>
                     <RowTemplate>
@@ -35,6 +41,14 @@
                         <MudTd>
                             @context?.location <!-- 安全访问 -->
                         </MudTd>
+                        <MudTd>
+                            @context?.City.ToString().Replace("_", " ") <!-- 安全访问 -->
+                        </MudTd>
+                        <MudTd>@context.CompanyName</MudTd>
+                        <MudTd>@context.RegistrationNumber</MudTd>
+                        <MudTd>@context.TinNumber</MudTd>
+                        <MudTd>@context.CompanyAddress</MudTd>
+
                         <MudTd>
                             @* <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart"
                                            OnClick="@(() => NavigateToOrder(context.Id))"
@@ -57,6 +71,33 @@
             </MudCardContent>
         </MudCard>
     </MudTabPanel>
+    <MudTabPanel Text="Summary By City">
+        <MudCard>
+            <MudCardContent>
+                <MudTable Items="@_citySummaries" Elevation="5">
+                    <HeaderContent>
+                        <MudTh>City</MudTh>
+                        <MudTh>Total Orders</MudTh>
+                        <MudTh>Total Amount (RM)</MudTh>
+                        <MudTh>操作</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>@(context.City.ToString().Replace("_", " "))</MudTd>
+                        <MudTd>@context.TotalOrders</MudTd>
+                        <MudTd>@context.TotalAmount.ToString("F2")</MudTd>
+                        <MudTd>
+                            @* <MudIconButton Icon="@Icons.Material.Filled.ShoppingCart"
+                                           OnClick="@(() => NavigateToOrder(context.Id))"
+                                           Color="Color.Primary" /> *@
+                            <MudIconButton Icon="@Icons.Material.Filled.Summarize"
+                                           OnClick="@(() => NavigateToSumary(context.City))"
+                                           Color="Color.Primary" />
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudCardContent>
+        </MudCard>
+    </MudTabPanel>
 </MudTabs>
 
 @code {
@@ -71,12 +112,34 @@
     private string _searchString = "";
     private Dictionary<int, int?> _quantities = new Dictionary<int, int?>();
 
+    private List<CitySummary> _citySummaries = new();
+
+    private void CalculateCitySummary()
+    {
+        if (FilteredCustomers != null && FilteredCustomers.Any())
+        {
+            _citySummaries = _order
+                .Where(o => o.City.HasValue) // 避免 null
+                .GroupBy(o => o.City)
+                .Select(g => new CitySummary
+                {
+                    City = g.Key,
+                    TotalOrders = g.Count(),
+                    TotalAmount = g.Sum(x => x.Totalamount)
+                })
+                .ToList();
+        }
+    }
+
     private void NavigateToOrder(int customerId)
     {
         NavigationManager.NavigateTo($"/orderhistory/{customerId}");
         Console.Write(customerId);
     }
-
+    private void NavigateToSumary(CityValue? City)
+    {
+        NavigationManager.NavigateTo($"/SummaryofCity/{City}");
+    }
     protected override async Task OnInitializedAsync()
     {
         try
@@ -92,8 +155,16 @@
                 if (customer != null)
                 {
                     order.location = customer.Location; // 为Order模型添加Location属性
+                    order.City = customer.City;
+                    order.CustomersName = customer.CustomersName;
+                    order.CompanyName = customer.CompanyName;
+                    order.RegistrationNumber = customer.RegistrationNumber;
+                    order.TinNumber = customer.TinNumber;
+                    order.CompanyAddress = customer.CompanyAddress;
                 }
             }
+            CalculateCitySummary();
+
         }
         catch (Exception ex)
         {
@@ -145,5 +216,7 @@
         _order.Where(c =>
             string.IsNullOrWhiteSpace(_searchString) ||
             c.CustomersName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
-            (c.location?.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false));
+            (c.location?.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ?? false)
+          
+        );
 }

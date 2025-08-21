@@ -4,6 +4,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using ShengTaOrderListing.Models;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace ShengTaOrderListing.Services;
@@ -26,6 +27,20 @@ public class OrderService
         using var connection = new MySqlConnection(_connectionString);
         var sql = "SELECT * FROM orderdetails WHERE CustomersID = @id";
         return await connection.QueryFirstOrDefaultAsync<Order>(sql, new { Id = id });
+    }
+
+    public async Task<List<Order>> GetOrderByCityAsync(string city)
+    {
+        using var connection = new MySqlConnection(_connectionString);
+
+        // 把 string 转 enum → 再转 int
+        if (!Enum.TryParse<CityValue>(city, out var cityEnum))
+            throw new ArgumentException($"无效的城市: {city}");
+        int cityInt = (int)cityEnum;
+
+        var sql = "SELECT * FROM orderdetails WHERE City = @City";
+        var result = await connection.QueryAsync<Order>(sql, new { City = cityInt });
+        return result.ToList();
     }
 
     public async Task<List<int?>> GetCustomersWithOrdersAsync()
@@ -51,13 +66,15 @@ public class OrderService
         {
             order.CustomersID,
             order.CustomersName,
-            order.OrderD
+            order.OrderD,
+            order.Totalamount,
+            order.City,
         };
 
         var sql = @"INSERT INTO orderdetails 
-                    (CustomersID, CustomersName, OrderD) 
+                    (CustomersID, CustomersName, OrderD,TotalAmount,City) 
                     VALUES 
-                    (@CustomersID, @CustomersName, @OrderD);
+                    (@CustomersID, @CustomersName, @OrderD,@Totalamount,@City);
                     SELECT LAST_INSERT_ID();";
 
         var id = await connection.ExecuteScalarAsync<int>(sql, parameters);

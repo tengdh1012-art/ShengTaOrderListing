@@ -8,7 +8,12 @@ public class Order
     public string? OrderD { get; set; } // JSON格式的订单详情
     public string GroupName { get; set; }
     public string location { get; set; }
-
+    public float Totalamount { get; set; }
+    public CityValue? City { get; set; }
+    public string CompanyName { get; set; }
+    public string RegistrationNumber { get; set; }
+    public string TinNumber { get; set; }
+    public string CompanyAddress { get; set; }
 }
 
 public class OrderItemDetail
@@ -24,4 +29,21 @@ public class OrderItemDetail
     public string Company { get; set; }
     public bool HasOrder { get; set; }
     public bool IsSummaryRow { get; set; } = false;
+    public int OrderCount { get; set; }
+    public int CityTotal { get; set; }
+    
+}
+
+public class CitySummary
+{
+    public CityValue? City { get; set; }
+    public int TotalOrders { get; set; }
+    public float TotalAmount { get; set; }
+}
+
+public class CityProductSummary
+{
+    public CityValue City { get; set; }
+    public string ProductName { get; set; }
+    public int TotalQuantity { get; set; }
 }

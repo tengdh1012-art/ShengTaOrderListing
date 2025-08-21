@@ -84,14 +84,15 @@
             </MudCardContent>
         </MudCard>
 
-        <div class="d-flex justify-end mt-4">
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       OnClick="SubmitOrder"
-                       Disabled="@(!_quantities.Values.Any(q => q > 0))">
-                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" /> Submit Order
-            </MudButton>
-        </div>
+            <MudPaper Class="pa-4 mt-4 d-flex justify-space-between align-center">
+                <MudText Typo="Typo.h6">Total Amount: RM @CalculateTotalAmount().ToString("F2")</MudText>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick="SubmitOrder"
+                           Disabled="@(!_quantities.Values.Any(q => q > 0))">
+                    <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" /> Submit Order
+                </MudButton>
+            </MudPaper>
     }
     </MudTabPanel>
     
@@ -168,8 +169,35 @@
             s.ProductName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
             (s.Company != null && s.Company.Contains(_searchString, StringComparison.OrdinalIgnoreCase)));
 
+
+    private float? CalculateSubtotal(Store product)
+    {
+        var quantity = _quantities.ContainsKey(product.Storeid) ? _quantities[product.Storeid] : 0;
+        if (quantity > 0 && product.MemberPrice.HasValue)
+        {
+            return quantity * product.MemberPrice.Value;
+        }
+        return 0;
+    }
+
+    private float CalculateTotalAmount()
+    {
+        float total = 0;
+        foreach (var product in _store)
+        {
+            var quantity = _quantities.ContainsKey(product.Storeid) ? _quantities[product.Storeid] : 0;
+            if (quantity > 0 && product.MemberPrice.HasValue)
+            {
+                total += quantity.Value * product.MemberPrice.Value;
+            }
+        }
+        return total;
+    }
+
     private async Task SubmitOrder()
     {
+
+        float totalAmount = CalculateTotalAmount();
         // 创建订单项
         var orderItems = _store
              .Where(p => _quantities[p.Storeid] >= 0)
@@ -197,7 +225,15 @@
         {
             CustomersID = _customer.CustomersID??0,
             CustomersName = _customer.CustomersName,
-            OrderD = JsonSerializer.Serialize(orderItems)
+            OrderD = JsonSerializer.Serialize(orderItems),
+            Totalamount = totalAmount,
+            City = _customer.City
+        };
+
+        var orderDetail = new
+        {
+            Items = orderItems,
+            TotalAmount = totalAmount
         };
 
         try

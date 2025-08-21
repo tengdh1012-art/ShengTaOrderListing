@@ -16,5 +16,8 @@ public class Customer
     public string RegistrationNumber { get; set; }
     public string TinNumber { get; set; }  
     public string CompanyAddress { get; set; }
+    public CityValue City { get; set; }
 
 }
+
+public enum CityValue { Bukit_Gambir, Tangkak, Simpang_Renggam,Pagoh, Penang, Kuala_Lumpur,Yong_Peng }

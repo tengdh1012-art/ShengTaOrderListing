@@ -1,4 +1,4 @@
-﻿@page "/orderhistory/{CustomerId:int}"
+﻿@page "/SummaryofCity/{City}"
 @using ShengTaOrderListing.Models
 @using ShengTaOrderListing.Services
 @using ShengTaOrderListing.Components
@@ -16,11 +16,7 @@
 <MudTabs Centered="_centered" Color="Color.Primary">
     <MudTabPanel Text="Customer Order Details">
         <MudPaper Elevation="3" Class="pa-4 mb-4">
-            <MudText Typo="Typo.h5">Customer: @_customer?.CustomersName</MudText>
-            <MudText>Customer ID: @_customer?.CustomersID</MudText>
-            <MudText>Address: @_customer?.Location</MudText> 
-            <MudText>City: @_customer?.City</MudText>
-
+            <MudText Typo="Typo.h3" GutterBottom="true">@City.ToString().Replace("_", " ")</MudText>
         </MudPaper>
         <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="NavigateBack">
             <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Class="me-2" />
@@ -48,7 +44,7 @@
                         <MudTh>Product Name</MudTh>
                         <MudTh>Market Price</MudTh>
                         <MudTh>Member Price</MudTh>
-                        <MudTh>Max Order</MudTh>
+                        <MudTh>Unit</MudTh>
                         <MudTh>Quantity</MudTh>
                     </HeaderContent>
                     <RowTemplate>
@@ -94,7 +90,7 @@
                             <MudTd DataLabel="Product Name">@context.ProductName</MudTd>
                             <MudTd DataLabel="Market Price">@context.MarketPrice?.ToString("F2")</MudTd>
                             <MudTd DataLabel="Member Price">@context.MemberPrice?.ToString("F2")</MudTd>
-                            <MudTd DataLabel="Max Order">@context.MaxOrder @context.Unit</MudTd>
+                            <MudTd DataLabel="Unit"> @context.Unit</MudTd>
                             <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
                         }
                     </RowTemplate>
@@ -109,14 +105,14 @@
             
         </MudCard>
         <MudPaper Class="pa-4 mt-4 d-flex justify-space-between align-center">
-            <MudText Typo="Typo.h6">Total Amount: RM @_customerOrder?.Totalamount.ToString("F2")</MudText>
+            <MudText Typo="Typo.h6"> Total Amount: RM @CalculateTotalAmount().ToString("N2") </MudText>
         </MudPaper>
     </MudTabPanel>
 </MudTabs>
 
 @code {
     [Parameter]
-    public int CustomerId { get; set; }
+    public string City { get; set; }
 
     bool _centered = true;
     private List<OrderItemDetail> products = new();
@@ -134,6 +130,17 @@
     private void NavigateBack()
     {
         NavigationManager.NavigateTo($"/order");
+    }
+
+    private decimal CalculateTotalAmount()
+    {
+        if (products == null || !products.Any())
+            return 0m;
+
+        return products.Sum(p =>
+            p.MemberPrice.HasValue
+                ? p.Quantity * p.MemberPrice.Value
+                : 0m);
     }
 
     private void ToggleGroup(string company)
@@ -168,18 +175,11 @@
     {
         try
         {
-            // 获取所有产品
-            _customer = await CustomerService.GetCustomerByIdAsync(CustomerId);
             _order = await OrderService.GetAllOrdersAsync();
-            if (_customer == null)
-            {
-                Snackbar.Add("Customer not found", Severity.Error);
-                return;
-            }
-            _store = await StoreService.GetAllStoreAsync();
-            var allOrders = await OrderService.GetOrderByIdAsync(CustomerId);
-            _customerOrder = allOrders;
+            Console.WriteLine(City);
+            var allOrders = await OrderService.GetOrderByCityAsync(City);
             LoadProductData(allOrders);
+            _store = await StoreService.GetAllStoreAsync();
         }
         catch (Exception ex)
         {
@@ -191,13 +191,38 @@
         }
     }
 
-    private void LoadProductData(Order Order)
+    private void LoadProductData(List<Order> orders)
     {
-        // 原始JSON字符串（已处理转义）
-        string json = Order.OrderD.ToString();
+        // 原始 JSON
+        var allProducts = new List<OrderItemDetail>();
 
-        // 解析JSON
-        products = JsonSerializer.Deserialize<List<OrderItemDetail>>(json);
+        foreach (var order in orders)
+        {
+            string json = order.OrderD.ToString();
+            var productList = JsonSerializer.Deserialize<List<OrderItemDetail>>(json);
+
+            if (productList != null)
+            {
+                allProducts.AddRange(productList);
+            }
+        }
+
+        if (allProducts.Any())
+        {
+            // 🔹按 ProductName 分组，算出整个 City 的总和
+            products = allProducts
+                .GroupBy(p => p.ProductName)
+                .Select(g => new OrderItemDetail
+                {
+                    ProductName = g.Key,
+                    Quantity = g.Sum(x => x.Quantity),
+                    Unit = g.First().Unit,
+                    MarketPrice = g.First().MarketPrice,
+                    MemberPrice = g.First().MemberPrice,
+                    Company = g.First().Company
+                })
+                .ToList();
+        }
     }
 
 
@@ -278,19 +303,6 @@
 
     }
 
-    private float CalculateTotalAmount()
-    {
-        float total = 0;
-        foreach (var product in _store)
-        {
-            var quantity = _quantities.ContainsKey(product.Storeid) ? _quantities[product.Storeid] : 0;
-            if (quantity > 0 && product.MemberPrice.HasValue)
-            {
-                total += quantity.Value * product.MemberPrice.Value;
-            }
-        }
-        return total;
-    }
 
     private List<OrderItemDetail> GroupedStore
     {

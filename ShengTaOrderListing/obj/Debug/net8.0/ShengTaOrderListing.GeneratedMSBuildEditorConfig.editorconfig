@@ -83,6 +83,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RvcmVGb3JtLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Hui/ShengTaOrderListing/ShengTaOrderListing/Pages/SummaryofCity.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3VtbWFyeW9mQ2l0eS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Hui/ShengTaOrderListing/ShengTaOrderListing/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-55dbxuzwnv

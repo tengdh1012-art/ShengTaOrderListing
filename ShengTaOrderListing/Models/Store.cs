@@ -11,6 +11,7 @@ public class Store
     public float? MemberPrice { get; set; } 
     public int Storeid { get; set; }
     public string Company { get; set; }
+    public float Totalamount { get; set; }
 }
 
 public enum OrderUnit { BLT, BAG, DRUM, SETS, PACKS }

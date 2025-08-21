@@ -38,13 +38,14 @@ public class CustomerService
             customer.CompanyName,
             customer.RegistrationNumber,
             customer.TinNumber,
-            customer.CompanyAddress
+            customer.CompanyAddress,
+            customer.City
         };
 
         var sql = @"INSERT INTO customerdetails 
-                (CustomersName, CustomersID, IC, PhoneNumber, Location,TypeCrops,PlatingArea,CompanyName,RegistrationNumber,TinNumber,CompanyAddress) 
+                (CustomersName, CustomersID, IC, PhoneNumber, Location,TypeCrops,PlatingArea,CompanyName,RegistrationNumber,TinNumber,CompanyAddress,City) 
                 VALUES 
-                (@CustomersName, @CustomersID, @IC, @PhoneNumber, @Location,@TypeCrops,@PlatingArea,@CompanyAddress,@RegistrationNumber,@TinNumber,@CompanyAddress);
+                (@CustomersName, @CustomersID, @IC, @PhoneNumber, @Location,@TypeCrops,@PlatingArea,@CompanyAddress,@RegistrationNumber,@TinNumber,@CompanyAddress,@City);
                 
                 SELECT LAST_INSERT_ID();";
 
