@@ -288,7 +288,7 @@
 
                 // 刷新客户列表
                 _customers = await CustomerService.GetAllCustomersAsync();
-                NavigationManager.NavigateTo($"/customerorder/{_newcustomer.CustomersID}");
+                NavigationManager.NavigateTo($"/customerorder/{_newcustomer.CustomersID}/user");
                 _newcustomer = new Customer();
                 int maxId = await CustomerService.GetMaxCustomerID();
                 _newcustomer.CustomersID = maxId + 1;

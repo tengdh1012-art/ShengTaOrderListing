@@ -1,4 +1,4 @@
-﻿@page "/customerorder/{CustomerId:int}"
+﻿@page "/customerorder/{CustomerId:int}/{role}"
 @using ShengTaOrderListing.Models
 @using ShengTaOrderListing.Services
 @using ShengTaOrderListing.Components
@@ -102,6 +102,7 @@
     [Parameter]
     public int CustomerId { get; set; }
     bool _centered = true;
+    [Parameter] public string role { get; set; } = string.Empty;
 
     private Customer _customer;
     private List<Order> _order;

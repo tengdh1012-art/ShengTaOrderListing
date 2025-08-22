@@ -17,9 +17,13 @@
     <MudTabPanel Text="Customer Order Details">
         <MudPaper Elevation="3" Class="pa-4 mb-4">
             <MudText Typo="Typo.h5">Customer: @_customer?.CustomersName</MudText>
-            <MudText>Customer ID: @_customer?.CustomersID</MudText>
             <MudText>Address: @_customer?.Location</MudText> 
-            <MudText>City: @_customer?.City</MudText>
+            <MudText>City: @_customer?.City.ToString().Replace("_"," ")</MudText>
+            <MudText>Company Name: @(string.IsNullOrWhiteSpace(_customer?.CompanyName) ? "-" : _customer.CompanyName)</MudText>
+            <MudText>Registration Number: @(string.IsNullOrWhiteSpace(_customer?.RegistrationNumber) ? "-" : _customer.RegistrationNumber)</MudText>
+            <MudText>Tin Number: @(string.IsNullOrWhiteSpace(_customer?.TinNumber) ? "-" : _customer.TinNumber)</MudText>
+            <MudText>Company Address: @(string.IsNullOrWhiteSpace(_customer?.CompanyAddress) ? "-" : _customer.CompanyAddress)</MudText>
+
 
         </MudPaper>
         <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="NavigateBack">
