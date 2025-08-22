@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
 @using MudBlazor
-
 <MudThemeProvider />
 <MudPopoverProvider />
 <MudDialogProvider />
@@ -16,8 +15,8 @@
     <MudDrawer @bind-Open="@_drawerOpen" ClipMode="DrawerClipMode.Always">
          <MudNavMenu>
             <MudNavLink Href="/" Icon="@Icons.Material.Filled.Person">Customer Details</MudNavLink>
-            <MudNavLink Href="/store" Icon="@Icons.Material.Filled.Store">Product Details</MudNavLink>
-            <MudNavLink Href="/Order" Icon="@Icons.Material.Filled.History">History</MudNavLink>
+            <MudNavLink Href="/store/user" Icon="@Icons.Material.Filled.Store">Product Details</MudNavLink>
+            <MudNavLink Href="/order/user" Icon="@Icons.Material.Filled.History">History</MudNavLink>
 
         </MudNavMenu> 
 

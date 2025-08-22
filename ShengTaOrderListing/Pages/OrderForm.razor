@@ -1,4 +1,4 @@
-﻿@page "/order"
+﻿@page "/order/{role}"
 @using ShengTaOrderListing.Models
 @using ShengTaOrderListing.Services
 @using ShengTaOrderListing.Components
@@ -71,8 +71,10 @@
             </MudCardContent>
         </MudCard>
     </MudTabPanel>
-    <MudTabPanel Text="Summary By City">
-        <MudCard>
+    @if (role == "admin")
+    {
+        <MudTabPanel Text="Summary By City">
+            <MudCard>
             <MudCardContent>
                 <MudTable Items="@_citySummaries" Elevation="5">
                     <HeaderContent>
@@ -98,13 +100,14 @@
             </MudCardContent>
         </MudCard>
     </MudTabPanel>
+    }
 </MudTabs>
 
 @code {
     [Parameter]
     public int CustomerId { get; set; }
     bool _centered = true;
-
+    [Parameter] public string role { get; set; } = string.Empty;
     private List<Customer> _customers = new();
     private List<Order> _order = new();
     private List<Store> _store = new List<Store>();
@@ -133,12 +136,20 @@
 
     private void NavigateToOrder(int customerId)
     {
-        NavigationManager.NavigateTo($"/orderhistory/{customerId}");
+        if(role == "admin")
+        {
+            NavigationManager.NavigateTo($"/orderhistory/{customerId}/admin");
+        }
+        else if(role == "user")
+        {
+            NavigationManager.NavigateTo($"/orderhistory/{customerId}/user");
+
+        }
         Console.Write(customerId);
     }
     private void NavigateToSumary(CityValue? City)
     {
-        NavigationManager.NavigateTo($"/SummaryofCity/{City}");
+        NavigationManager.NavigateTo($"/SummaryofCity/{City}/admin");
     }
     protected override async Task OnInitializedAsync()
     {

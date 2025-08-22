@@ -57,14 +57,12 @@
                             <MudTextField @bind-Value="_newcustomer.IC"
                                           Required="true"
                                           RequiredError="IC is Required"
-                                          Mask="@(new PatternMask("000000000000"))"
                                           Label="IC" />
                         </MudItem>
                         <MudItem xs="12" md="6">
                             <MudTextField @bind-Value="_newcustomer.PhoneNumber"
                                           Required="true"
                                           RequiredError="Phone Number is Required"
-                                          Mask="@(new PatternMask("00000000000"))"
                                           Label="Phone Number" />
                         </MudItem>
 

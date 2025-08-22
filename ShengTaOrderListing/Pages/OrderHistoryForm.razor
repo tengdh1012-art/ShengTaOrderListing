@@ -1,4 +1,4 @@
-﻿@page "/orderhistory/{CustomerId:int}"
+﻿@page "/orderhistory/{CustomerId:int}/{role}"
 @using ShengTaOrderListing.Models
 @using ShengTaOrderListing.Services
 @using ShengTaOrderListing.Components
@@ -117,7 +117,7 @@
 @code {
     [Parameter]
     public int CustomerId { get; set; }
-
+    [Parameter] public string role { get; set; } = string.Empty;
     bool _centered = true;
     private List<OrderItemDetail> products = new();
     private OrderItemDetail selectedItem;
@@ -133,7 +133,15 @@
     private Dictionary<string, bool> _groupExpandedState = new Dictionary<string, bool>();
     private void NavigateBack()
     {
-        NavigationManager.NavigateTo($"/order");
+        if(role == "admin")
+        {
+            NavigationManager.NavigateTo($"/order/admin");
+        }
+        else
+        {
+            NavigationManager.NavigateTo($"/order/user");
+
+        }
     }
 
     private void ToggleGroup(string company)

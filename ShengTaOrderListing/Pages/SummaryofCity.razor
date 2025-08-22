@@ -1,4 +1,4 @@
-﻿@page "/SummaryofCity/{City}"
+﻿@page "/SummaryofCity/{City}/{role}"
 @using ShengTaOrderListing.Models
 @using ShengTaOrderListing.Services
 @using ShengTaOrderListing.Components
@@ -121,6 +121,7 @@
     private List<Order> _order = new();
     private Order _customerOrder;
     private List<OrderItemDetail> _orderitemdetail = new();
+    [Parameter] public string role { get; set; } = string.Empty;
 
     private List<Store> _store = new List<Store>();
     private bool _isLoading = true;
@@ -129,7 +130,7 @@
     private Dictionary<string, bool> _groupExpandedState = new Dictionary<string, bool>();
     private void NavigateBack()
     {
-        NavigationManager.NavigateTo($"/order");
+        NavigationManager.NavigateTo($"/order/admin");
     }
 
     private decimal CalculateTotalAmount()
