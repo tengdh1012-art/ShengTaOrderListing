@@ -45,7 +45,7 @@ public class CustomerService
         var sql = @"INSERT INTO customerdetails 
                 (CustomersName, CustomersID, IC, PhoneNumber, Location,TypeCrops,PlatingArea,CompanyName,RegistrationNumber,TinNumber,CompanyAddress,City) 
                 VALUES 
-                (@CustomersName, @CustomersID, @IC, @PhoneNumber, @Location,@TypeCrops,@PlatingArea,@CompanyAddress,@RegistrationNumber,@TinNumber,@CompanyAddress,@City);
+                (@CustomersName, @CustomersID, @IC, @PhoneNumber, @Location,@TypeCrops,@PlatingArea,@CompanyName,@RegistrationNumber,@TinNumber,@CompanyAddress,@City);
                 
                 SELECT LAST_INSERT_ID();";
 
